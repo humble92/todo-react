@@ -27,6 +27,23 @@ api.interceptors.request.use(
   }
 );
 
+// Global response interceptor: if token is invalid/expired, force logout
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const status = error?.response?.status;
+    if (status === 401) {
+      try {
+        localStorage.removeItem('token');
+      } catch {}
+      if (typeof window !== 'undefined' && window.location.pathname !== '/login') {
+        window.location.href = '/login';
+      }
+    }
+    return Promise.reject(error);
+  }
+);
+
 // Authentication Endpoints
 export const registerUser = (userData: any) => api.post('/auth/register', userData);
 export const loginUser = (formData: any) => api.post('/auth/token', formData, {

@@ -254,7 +254,7 @@ const TodoList = () => {
               </select>
             </div>
             <div className="md:col-span-2">
-              <label className="mb-1 block text-sm font-medium text-gray-700">Attachments (comma-separated)</label>
+              <label className="mb-1 block text-sm font-medium text-gray-700">Attached Links (comma-separated)</label>
               <input
                 type="text"
                 placeholder="report.pdf, design.png"

@@ -1,4 +1,4 @@
-# Frontend Dockerfile
+# frontend/Dockerfile
 FROM node:24-alpine AS builder
 
 WORKDIR /app
@@ -21,11 +21,17 @@ RUN npm run build
 # Production stage
 FROM nginx:alpine
 
+# Install envsubst for environment variable substitution
+RUN apk add --no-cache gettext
+
 # Copy built assets from builder stage
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Copy nginx configuration
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Copy nginx configuration template (기존 nginx.conf 대신)
+COPY nginx.conf.template /etc/nginx/templates/default.conf.template
+
+# Set default backend URL (for docker-compose)
+ENV BACKEND_URL=http://backend:8000
 
 # Expose port
 EXPOSE 80

@@ -27,7 +27,7 @@ RUN apk add --no-cache gettext
 # Copy built assets from builder stage
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Copy nginx configuration template (기존 nginx.conf 대신)
+# Copy nginx configuration template (instead of nginx.conf)
 COPY nginx.conf.template /etc/nginx/templates/default.conf.template
 
 # Set default backend URL (for docker-compose)
